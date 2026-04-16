@@ -1,0 +1,74 @@
+:root {
+    --primary-blue: #007bff;
+    --danger-red: #ff4d4d;
+    --success-cyan: #00f2fe;
+    --dark-bg: #050505;
+    --glass: rgba(255, 255, 255, 0.05);
+}
+
+body {
+    background: var(--dark-bg);
+    color: white;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    margin: 0; padding: 20px;
+}
+
+.main-container { max-width: 1000px; margin: auto; }
+
+/* التصميم الزجاجي للشاشة */
+.glass {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.input-group { display: flex; flex-wrap: wrap; gap: 10px; }
+
+input, select {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    flex: 1; min-width: 150px;
+}
+
+input:focus { border-color: var(--primary-blue); outline: none; }
+
+.btn-add, .btn-pdf, .btn-print {
+    padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; border: none;
+}
+
+.btn-add { background: var(--primary-blue); color: white; }
+.btn-pdf { background: #28a745; color: white; margin-right: 10px; }
+.btn-print { background: #6c757d; color: white; }
+
+/* جدول الجرد */
+.inventory-table {
+    width: 100%; border-collapse: collapse; margin-top: 20px;
+    background: var(--glass); border-radius: 10px; overflow: hidden;
+}
+
+.inventory-table th, td { padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+
+.variance-neg { color: var(--danger-red); font-weight: bold; }
+.variance-pos { color: var(--success-cyan); font-weight: bold; }
+
+/* --- إعدادات الطباعة الاحترافية --- */
+@media print {
+    .no-print { display: none !important; }
+    body { background: white !important; color: black !important; padding: 0; }
+    #reportArea { background: white !important; color: black !important; }
+    .inventory-table { background: white !important; border: 1px solid #000 !important; }
+    .inventory-table th, .inventory-table td { 
+        border: 1px solid #000 !important; color: black !important; 
+    }
+    .company-logo-print { 
+        display: block !important; text-align: center; font-size: 32px; font-weight: bold; margin-bottom: 20px; 
+    }
+}
+
+.company-logo-print { display: none; } /* يظهر فقط في الطباعة */
