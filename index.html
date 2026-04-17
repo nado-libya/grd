@@ -3,39 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NADO LIBYA - منظومة الجرد الاحترافية</title>
+    <title>NADO LIBYA - منظومة الجرد الذكية</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+
+    <div id="welcome-screen">
+        <div class="welcome-content">
+            <h1 class="animate-logo">NADO LIBYA</h1>
+            <p>منظومة الجرد الاحترافية</p>
+            <div class="loader"></div>
+        </div>
+    </div>
+
     <div class="main-container">
         <header class="no-print">
             <h1 class="logo">NADO LIBYA 👕</h1>
             <div class="inventory-info-header">
-                <input type="text" id="inventoryTitle" placeholder="اسم الجرد (مثلاً: جرد شهر 4)">
-                <select id="branchSelect" onchange="toggleCustomBranch()">
+                <input type="text" id="inventoryTitle" placeholder="اسم الجرد (مثلاً: جرد شهر 4)" oninput="saveData()">
+                <select id="branchSelect" onchange="toggleCustomBranch(); saveData()">
                     <option value="بنغازي">فرع بنغازي 📍</option>
                     <option value="جرابة">فرع جرابة 📍</option>
                     <option value="حي الأندلس">فرع حي الأندلس 📍</option>
-                    <option value="custom">فرع آخر (إدخال يدوي)...</option>
+                    <option value="custom">فرع آخر...</option>
                 </select>
-                <input type="text" id="customBranch" placeholder="اكتب اسم الفرع هنا" style="display:none;">
+                <input type="text" id="customBranch" placeholder="اكتب اسم الفرع" style="display:none;" oninput="saveData()">
             </div>
         </header>
 
         <section class="entry-section glass no-print">
             <div class="input-group">
-                <input type="text" id="itemCode" placeholder="كود القطعة 🏷️">
+                <input type="text" id="itemCode" placeholder="كود القطعة (الباركود) 🏷️">
                 <input type="text" id="itemName" placeholder="اسم القطعة 👗">
                 <input type="number" id="sysQty" placeholder="الكمية بالمنظومة">
                 <input type="number" id="phyQty" placeholder="الكمية بالمحل">
                 <button onclick="addToInventory()" class="btn-add">إضافة للجرد +</button>
             </div>
+            <div class="options-group">
+                <label>
+                    <input type="checkbox" id="autoClear" checked> مسح الحقول تلقائياً بعد الإضافة (للمسح السريع)
+                </label>
+            </div>
         </section>
 
         <div class="actions no-print">
-            <button onclick="generatePDF()" class="btn-pdf">تحميل تقرير PDF 📥</button>
-            <button onclick="window.print()" class="btn-print">طباعة مباشرة 🖨️</button>
+            <button onclick="generatePDF()" class="btn-pdf">تحميل PDF 📥</button>
+            <button onclick="window.print()" class="btn-print">طباعة 🖨️</button>
+            <button onclick="clearAllData()" class="btn-danger">مسح الكل 🗑️</button>
         </div>
 
         <div id="reportArea">
@@ -48,19 +63,21 @@
                 </div>
             </div>
 
-            <table class="inventory-table">
-                <thead>
-                    <tr>
-                        <th>كود القطعة</th>
-                        <th>اسم القطعة</th>
-                        <th>كمية المنظومة</th>
-                        <th>كمية المحل</th>
-                        <th>الفرق (عجز/زيادة)</th>
-                    </tr>
-                </thead>
-                <tbody id="inventoryBody">
-                    </tbody>
-            </table>
+            <div class="table-scroll">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>كود</th>
+                            <th>الاسم</th>
+                            <th>المنظومة</th>
+                            <th>المحل</th>
+                            <th>الفرق</th>
+                            <th class="no-print">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryBody"></tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
