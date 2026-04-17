@@ -2,7 +2,7 @@
     --primary-blue: #007bff;
     --danger-red: #ff4d4d;
     --success-cyan: #00f2fe;
-    --dark-bg: #050505;
+    --dark-bg: #0b0b0b;
     --glass: rgba(255, 255, 255, 0.05);
 }
 
@@ -10,65 +10,68 @@ body {
     background: var(--dark-bg);
     color: white;
     font-family: 'Segoe UI', Tahoma, sans-serif;
-    margin: 0; padding: 20px;
+    margin: 0; padding: 10px;
+    overflow-x: hidden;
 }
+
+/* الشاشة الترحيبية */
+#welcome-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; display: flex; justify-content: center; align-items: center;
+    z-index: 9999; transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.welcome-content { text-align: center; }
+.animate-logo { font-size: 3rem; margin-bottom: 10px; color: var(--primary-blue); letter-spacing: 5px; }
+.loader { border: 3px solid #333; border-top: 3px solid var(--primary-blue); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 .main-container { max-width: 1000px; margin: auto; }
 
-/* التصميم الزجاجي للشاشة */
 .glass {
     background: var(--glass);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    padding: 25px;
+    padding: 15px;
     margin-bottom: 20px;
 }
 
-.input-group { display: flex; flex-wrap: wrap; gap: 10px; }
+.input-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
 
 input, select {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    color: white;
-    padding: 12px;
-    border-radius: 8px;
-    flex: 1; min-width: 150px;
+    background: #1a1a1a; border: 1px solid #333; color: white;
+    padding: 12px; border-radius: 8px; font-size: 14px;
 }
 
-input:focus { border-color: var(--primary-blue); outline: none; }
+.options-group { margin-top: 15px; font-size: 13px; color: #aaa; }
 
-.btn-add, .btn-pdf, .btn-print {
-    padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; border: none;
+.actions { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.actions button { flex: 1; min-width: 120px; }
+
+.btn-add { background: var(--primary-blue); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; }
+.btn-pdf { background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; }
+.btn-print { background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; }
+.btn-danger { background: var(--danger-red); color: white; border: none; border-radius: 8px; cursor: pointer; }
+
+/* الجدول وتجاوبه مع الهاتف */
+.table-scroll { overflow-x: auto; }
+.inventory-table { width: 100%; border-collapse: collapse; background: var(--glass); font-size: 14px; min-width: 500px; }
+.inventory-table th, td { padding: 12px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+
+.btn-edit { color: #ffc107; background: none; border: none; cursor: pointer; margin-left: 5px; }
+.btn-delete { color: var(--danger-red); background: none; border: none; cursor: pointer; }
+
+@media screen and (max-width: 600px) {
+    .animate-logo { font-size: 2rem; }
+    .input-group { grid-template-columns: 1fr; }
+    input, select { width: 100%; box-sizing: border-box; }
 }
 
-.btn-add { background: var(--primary-blue); color: white; }
-.btn-pdf { background: #28a745; color: white; margin-right: 10px; }
-.btn-print { background: #6c757d; color: white; }
-
-/* جدول الجرد */
-.inventory-table {
-    width: 100%; border-collapse: collapse; margin-top: 20px;
-    background: var(--glass); border-radius: 10px; overflow: hidden;
-}
-
-.inventory-table th, td { padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
-
-.variance-neg { color: var(--danger-red); font-weight: bold; }
-.variance-pos { color: var(--success-cyan); font-weight: bold; }
-
-/* --- إعدادات الطباعة الاحترافية --- */
 @media print {
     .no-print { display: none !important; }
-    body { background: white !important; color: black !important; padding: 0; }
-    #reportArea { background: white !important; color: black !important; }
-    .inventory-table { background: white !important; border: 1px solid #000 !important; }
-    .inventory-table th, .inventory-table td { 
-        border: 1px solid #000 !important; color: black !important; 
-    }
-    .company-logo-print { 
-        display: block !important; text-align: center; font-size: 32px; font-weight: bold; margin-bottom: 20px; 
-    }
+    body { background: white !important; color: black !important; }
+    .inventory-table { background: white !important; border: 1px solid #000; }
+    .inventory-table th, .inventory-table td { border: 1px solid #000; color: black; }
+    .company-logo-print { display: block !important; text-align: center; font-size: 28px; font-weight: bold; }
 }
-
-.company-logo-print { display: none; } /* يظهر فقط في الطباعة */
